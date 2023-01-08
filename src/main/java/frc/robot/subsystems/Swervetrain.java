@@ -185,4 +185,8 @@ public class Swervetrain extends SubsystemBase {
                 pose
         );
     }
+
+    public void stopModules() {
+        fL.stop();
+    }
 }

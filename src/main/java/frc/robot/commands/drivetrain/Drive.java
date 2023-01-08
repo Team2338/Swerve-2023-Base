@@ -1,13 +1,19 @@
 package frc.robot.commands.drivetrain;
 
-import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
 
 public class Drive extends CommandBase {
+    private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
+
     public Drive() {
+        this.xLimiter = new SlewRateLimiter(Constants.ModuleConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
+        this.yLimiter = new SlewRateLimiter(Constants.ModuleConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
+        this.turningLimiter = new SlewRateLimiter(Constants.ModuleConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
         addRequirements(Robot.swervetrain);
     }
 
@@ -25,27 +31,19 @@ public class Drive extends CommandBase {
         double rot = Robot.oi.driver.getRightX();
         rot = (Math.abs(rot) > Constants.DriveConstants.deadband) ? rot : 0;
 
-        //Forward speed, Sideways speed, Rotation Speed
-        ChassisSpeeds xchassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                y * Constants.Drivetrain.kMaxSpeedMetersPerSecond,
-                -x * Constants.Drivetrain.kMaxSpeedMetersPerSecond,
-                rot * Constants.Drivetrain.kMaxSpeedTurning,
-                Rotation2d.fromDegrees(Robot.swervetrain.getHeading())
-        );
 
-        ChassisSpeeds chassisSpeeds = new ChassisSpeeds(y, -x, rot);
+       x = xLimiter.calculate(x) * Constants.ModuleConstants.kTeleDriveMaxSpeedMetersPerSecond;
+       y = yLimiter.calculate(y) * Constants.ModuleConstants.kTeleDriveMaxSpeedMetersPerSecond;
+       rot = turningLimiter.calculate(rot) * Constants.ModuleConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
 
-        Robot.swervetrain.drive(
-            6.0 * (y * Math.abs(y)),
-            6.0 * (x * Math.abs(x)),
-            4.0 * rot,
-            false
-        );
+        ChassisSpeeds chassisSpeeds = new ChassisSpeeds(x, y, rot);
+        SwerveModuleState[] moduleStates = Constants.Drivetrain.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+        Robot.swervetrain.setModuleStates(moduleStates);
     }
 
     @Override
     public void end(boolean interrupted) {
-
+        Robot.swervetrain.stopModules();
     }
 
     @Override

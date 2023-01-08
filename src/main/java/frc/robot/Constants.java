@@ -77,7 +77,15 @@ public final class Constants {
     public static final double kPModuleDriveController = 0.008; // 1
 
     public static final double kGearRatio = 46080.0 / 6720.0; // need to ask aaron
-  }
+
+    public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
+    public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
+
+    public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
+    public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = //
+            kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
+    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
+    public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;  }
 
   public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = 3;

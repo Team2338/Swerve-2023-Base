@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Swerve-2023-Base.iml" filepath="$PROJECT_DIR$/.idea/modules/Swerve-2023-Base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Swerve-2023-Base.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Swerve-2023-Base.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Swerve-2023-Base.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Swerve-2023-Base.test.iml" />
+    </modules>
+  </component>
+</project>

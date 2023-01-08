@@ -154,4 +154,9 @@ public class SwerveModule {
                 driveMotor.getEncoder().getPosition() * Constants.ModuleConstants.kDriveEncoderRot2Meter * Math.PI * Constants.ModuleConstants.kWheelDiameterMeters,
                 new Rotation2d(getTurningHeading()));
     }
+
+    public void stop() {
+        driveMotor.set(0);
+        turnMotor.set(0);
+    }
 }

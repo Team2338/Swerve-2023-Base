@@ -75,6 +75,7 @@ public class Swervetrain extends SubsystemBase {
                 });
 
         resetHeading();
+        resetEncoders();
     }
 
     @Override
@@ -188,5 +189,8 @@ public class Swervetrain extends SubsystemBase {
 
     public void stopModules() {
         fL.stop();
+        fR.stop();
+        rR.stop();
+        rL.stop();
     }
 }
